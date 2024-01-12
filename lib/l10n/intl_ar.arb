@@ -1,0 +1,91 @@
+{
+    "splash_text": "كل لحظة تستثمرها في الدراسة تقرّبك خطوة أكثر نحو تحقيق أحلامك الأكاديمية",
+    "splash_title": "طريقك",
+    "splash_button": "متابعة",
+  
+    "login_title": "مرحبًا مجددًا",
+    "login_appar": "تسجيل الدخول",
+    "login_text": "قم بتسجيل الدخول باستخدام بريدك الإلكتروني وكلمة المرور \nأو تابع باستخدام وسائل التواصل الاجتماعي",
+    "login_button": "متابعة",
+    "login_hint_email": "البريد الإلكتروني",
+    "login_label_email": "أدخل بريدك الإلكتروني",
+    "login_hint_pass": "كلمة المرور",
+    "login_label_pass": "أدخل كلمة المرور",
+    "login_forgot": "نسيت كلمة المرور",
+    "login_remeber": "تذكرني",
+    "login_text_singUp": "ليس لديك حساب؟",
+    "login_button_singUp": "أنشئ حساب",
+  
+    "signUp_title": "تسجيل حساب",
+    "signUp_appar": "التسجيل",
+    "signUp_text": "أكمل تفاصيلك أو تابع باستخدام وسائل التواصل الاجتماعي",
+    "signUp_button": "متابعة",
+    "signUp_hint_email": "البريد الإلكتروني",
+    "signUp_label_email": "أدخل بريدك الإلكتروني",
+    "signUp_hint_pass": "كلمة المرور",
+    "signUp_label_pass": "أدخل كلمة المرور",
+    "signUp_hint_confirm_pass": "تأكيد كلمة المرور",
+    "signUp_label_confirm_pass": "أعد إدخال كلمة المرور",
+    "signUp_forgot": "نسيت كلمة المرور",
+    "signUp_remeber": "تذكرني",
+    "signUp_text_singUp": "ليس لديك حساب؟",
+    "signUp_button_singUp": "أنشئ حساب",
+    "signUp_term": "من خلال المتابعة، تؤكد أنك توافق على شروط الاستخدام لدينا",
+  
+    "home_welcome": "مرحبًا،",
+    "home_title": "جامعة العلوم الإسلامية العالمية",
+  
+    "home_acadmic": "أكاديمي",
+    "home_exchange_book": "تبادل الكتب",
+    "home_toDo": "قائمة المهام",
+    "home_ads": "الإعلانات",
+    "home_profile": "الملف الشخصي",
+    "home_houses": "السكنات الطلابية",
+  
+    "home_braking": "أخبار عاجلة",
+    "home_braking_title1": "كافتيريا الأعمال",
+    "home_braking_title2": "التعاون مع نقابة الصيادلة",
+  
+    "university_title": "الجامعة",
+    "university_tapBar_abstracts": "ملخصات",
+    "university_tapBar_ads": "إعلانات",
+    "university_tapBar_news": "أخبار",
+    "university_tapBar_calander": "التقويم الجامعي",
+  
+    "university_abstracts": "ملخصات",
+    "university_button_abstracts": "إضافة",
+    "university_search": "عنوان الملخص",
+    "university_upload_abstracts_title": "تحميل الملخص",
+    "university_upload_abstracts_pick_button": "رفق ملف الملخص (PDF)",
+    "university_upload_abstracts_submit_button": "إرسال",
+    "university_upload_abstracts_null":"لم يتم العثور على ملخص مطابق",
+
+    
+    "university_ads_title": "إعلانات",
+    "university_news_title": "أخبار",
+    "university_events_title": "فعاليات",
+    "university_calendar_title": "التقويم الجامعي",
+  
+    "profile_button_editProfile": "تعديل الملف الشخصي",
+    "profile_button_information": "المعلومات",
+    "profile_button_settings": "الإعدادات",
+    "profile_button_logout": "تسجيل الخروج",
+  
+    "exchange_book_title": "تبادل الكتب",
+    "exchange_book_button": "إضافة",
+    "exchange_book_upload_title": "تحميل الكتاب",
+    "exchange_book_upload_hint_title": "عنوان الكتاب",
+    "exchange_book_upload_hint_Description": "الوصف",
+    "exchange_book_upload_text": "الرجاء ذكر مكان تواجد الكتاب",
+    "exchange_book_upload_submit_button": "إرسال",
+    "exchange_book_upload_choose_button": "اختيار صورة",
+  
+    "houses_title": "السكنات الطلابية",
+    "houses_button": "خريطة Google",
+
+    "navBar_home" : "الرئيسية",
+    "navBar_university" : "الجامعة",
+    "navBar_profile" : "الملف الشخصي",
+    "navBar_toDo" : "المهام"
+  }
+  

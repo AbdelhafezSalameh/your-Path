@@ -1,0 +1,21 @@
+{
+  "name": "student_uni_services2",
+  "version": "1.0.0",
+  "description": "A new Flutter project.",
+  "main": "hafez.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {},
+  "keywords": []
+}

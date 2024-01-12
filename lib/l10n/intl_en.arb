@@ -1,0 +1,91 @@
+{
+"splash_text":"Every moment you invest in studying brings you one step closer to realizing your academic dreams",
+"splash_title":"Your Path",
+"splash_button":"Continue",
+
+"login_title":"Welcome Back",
+"login_appar":"Sign in",
+"login_text":"Sign in with your email and password  \nor continue with social media",
+"login_button":"Continue",
+"login_hint_email":"Email",
+"login_label_email":"Enter your email",
+"login_hint_pass":"Password",
+"login_label_pass":"Enter your password",
+"login_forgot":"Forgot Password",
+"login_remeber":"Remember me",
+"login_text_singUp":"'Don't have on account ?",
+"login_button_singUp":"Sign Up",
+
+"signUp_title":"Register Account",
+"signUp_appar":"Sign up",
+"signUp_text":"Complete your details or continue \nwith social media",
+"signUp_button":"Continue",
+"signUp_hint_email":"Email",
+"signUp_label_email":"Enter your email",
+"signUp_hint_pass":"Password",
+"signUp_label_pass":"Enter your password",
+"signUp_hint_confirm_pass":"Confirm Password",
+"signUp_label_confirm_pass":"Re-enter your password",
+"signUp_forgot":"Forgot Password",
+"signUp_remeber":"Remember me",
+"signUp_text_singUp":"'Don't have on account ?",
+"signUp_button_singUp":"Sign Up",
+"signUp_term":"By continuing your confirm that you agree \nwith our Term and Condition",
+
+"home_welcome":"Hi,",
+"home_title":"WISE University",
+
+"home_acadmic":"Acadmic",
+"home_exchange_book":"Exchange Book",
+"home_toDo":"To-Do List",
+"home_ads":"Ads",
+"home_profile":"Profile",
+"home_houses":"Houses",
+
+"home_braking":"Braking News",
+"home_braking_title1":"Business cafeteria",
+"home_braking_title2":"Cooperation with the Pharmacists Syndicate",
+
+"university_title":"University",
+"university_tapBar_abstracts":"Abstracts",
+"university_tapBar_ads":"Ads",
+"university_tapBar_news":"News",
+"university_tapBar_calander":"Events",
+
+"university_abstracts":"University",
+"university_button_abstracts":"Add",
+"university_search":"Title Abstract",
+"university_upload_abstracts_title":"Upload Abstract",
+"university_upload_abstracts_pick_button":"Attach Abstract.pdf",
+"university_upload_abstracts_submit_button":"Submit",
+"university_upload_abstracts_null":"No matching Abstract found",
+
+"university_ads_title":"Ads",
+"university_news_title":"News",
+"university_events_title":"Events",
+"university_calendar_title":"Calendar",
+
+"profile_button_editProfile":"Edit Profile",
+"profile_button_information":"Information",
+"profile_button_settings":"Settings",
+"profile_button_logout":"Log out",
+
+"exchange_book_title":"Exchange Book",
+"exchange_book_button":"Add",
+"exchange_book_upload_title":"Upload Book",
+"exchange_book_upload_hint_title":"Book Title",
+"exchange_book_upload_hint_Description":"Description",
+"exchange_book_upload_text":"Please indicate where the book is located",
+"exchange_book_upload_submit_button":"Submit",
+"exchange_book_upload_choose_button":"Choose image",
+
+"houses_title":"Houses",
+"houses_button":"Google Map",
+
+"navBar_home" : "Home",
+"navBar_university" : "University",
+"navBar_profile" : "To-Do",
+"navBar_toDo" : "Profile"
+
+
+}
