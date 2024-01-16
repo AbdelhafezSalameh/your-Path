@@ -111,6 +111,7 @@ class _BookUploadScreenState extends State<BookUploadScreen> {
             color: Colors.white,
           ),
         ),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color(0xFF297C74),
         centerTitle: true,
       ),

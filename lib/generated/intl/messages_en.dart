@@ -76,7 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile_button_editProfile":
             MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "profile_button_information":
-            MessageLookupByLibrary.simpleMessage("Information"),
+            MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "profile_button_logout":
             MessageLookupByLibrary.simpleMessage("Log out"),
         "profile_button_settings":

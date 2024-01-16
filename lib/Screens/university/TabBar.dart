@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_uni_services2/Screens/university/Ads/Ads.dart';
 import 'package:student_uni_services2/Screens/university/Calander/Calander.dart';
 import 'package:student_uni_services2/Screens/university/Events/Events.dart';
 import 'package:student_uni_services2/Screens/university/News/News.dart';
@@ -23,7 +22,7 @@ class _Tab_BarState extends State<Tab_Bar> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-          length: 4,
+          length: 3,
           child: SafeArea(
             child: Scaffold(
               appBar: AppBar(
@@ -52,21 +51,6 @@ class _Tab_BarState extends State<Tab_Bar> {
                         bottom: getProportionateScreenHeight(10),
                         top: getProportionateScreenHeight(20)),
                     tabs: [
-                      Tab(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenHeight(20),
-                              vertical: getProportionateScreenWidth(10)),
-                          child: const Text(
-                            "Ads",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
                       Tab(
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -116,7 +100,6 @@ class _Tab_BarState extends State<Tab_Bar> {
               ),
               body: const TabBarView(
                 children: [
-                  AdsScreen(),
                   NewsScreen(),
                   EventsScreen(),
                   CalanderScreen(),

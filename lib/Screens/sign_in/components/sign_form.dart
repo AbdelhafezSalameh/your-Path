@@ -11,6 +11,7 @@ import 'package:student_uni_services2/components/nav_bar.dart';
 import 'package:student_uni_services2/generated/l10n.dart';
 import 'package:student_uni_services2/helper/keyboard.dart';
 import 'package:student_uni_services2/screens/forgot_password/forgot_password_screen.dart';
+
 import '../../../../constants.dart';
 import '../../../../size_config.dart';
 
@@ -206,7 +207,7 @@ class _SignFormState extends State<SignForm> {
         labelText: S.of(context).login_label_pass,
         hintText: S.of(context).login_hint_pass,
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: const CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        prefixIcon: const CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
@@ -236,7 +237,7 @@ class _SignFormState extends State<SignForm> {
         labelText: S.of(context).login_label_email,
         hintText: S.of(context).login_hint_email,
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: const CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        prefixIcon: const CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
   }

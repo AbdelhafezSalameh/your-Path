@@ -6,10 +6,11 @@ import 'package:student_uni_services2/generated/l10n.dart';
 import 'package:student_uni_services2/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ... (previous imports)
+
 class HousesScreen extends StatefulWidget {
   static String routeName = "/Houses";
 
-  // ignore: use_key_in_widget_constructors
   const HousesScreen({Key? key});
 
   @override
@@ -19,6 +20,9 @@ class HousesScreen extends StatefulWidget {
 class _HousesScreenState extends State<HousesScreen>
     with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
+  final PageController _pageController = PageController();
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -42,86 +46,183 @@ class _HousesScreenState extends State<HousesScreen>
             color: Colors.white,
           ),
         ),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color(0xFF297C74),
         centerTitle: true,
       ),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(getProportionateScreenHeight(8)),
-                child: SizedBox(
-                  width: getProportionateScreenWidth(375.0),
-                  height: getProportionateScreenHeight(650),
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('houses')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator();
-                      }
-                      var houses = snapshot.data!.docs;
-                      List<Widget> houseWidgets = [];
-                      for (var house in houses) {
-                        var houseData = house.data() as Map<String, dynamic>;
-                        bool isAvailable = houseData['isAvailable'] ?? false;
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(getProportionateScreenHeight(8)),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: getProportionateScreenWidth(360),
+                        height: getProportionateScreenHeight(55),
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: const InputDecoration(
+                            hintText: 'Search by Neighborhood',
+                            prefixIcon: Icon(Icons.search),
+                          ),
+                          onChanged: (value) {
+                            filterHouses(value);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(375.0),
+                        height: getProportionateScreenHeight(650),
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('houses')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            }
+                            var houses = snapshot.data!.docs;
+                            List<Widget> houseWidgets = [];
+                            for (var house in houses) {
+                              var houseData =
+                                  house.data() as Map<String, dynamic>;
+                              bool isAvailable =
+                                  houseData['isAvailable'] ?? false;
 
-                        if (isAvailable) {
-                          houseWidgets.add(
-                            Card(
-                              color: const Color(0xFF27BCA0),
-                              elevation: 5,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: getProportionateScreenHeight(10),
-                                  horizontal: getProportionateScreenWidth(5)),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: houseData['imageUrls'] !=
-                                          null
-                                      ? NetworkImage(houseData['imageUrls'][0])
-                                      : null,
-                                  child: houseData['imageUrls'] == null &&
-                                          houseData['imageUrls'].isNotEmpty
-                                      ? const Text("")
-                                      : null,
-                                ),
-                                title: Text(
-                                  houseData['title'],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                              if (isAvailable) {
+                                houseWidgets.add(
+                                  InkWell(
+                                    child: Card(
+                                      elevation: 2,
+                                      color: Colors.grey[280],
+                                      margin: EdgeInsets.symmetric(
+                                        vertical:
+                                            getProportionateScreenHeight(10),
+                                        horizontal:
+                                            getProportionateScreenWidth(5),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          Container(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    200),
+                                            child: CarouselSlider(
+                                              options: CarouselOptions(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        200),
+                                                enlargeCenterPage: true,
+                                                autoPlay: true,
+                                                onPageChanged: (index, reason) {
+                                                  _pageController.animateToPage(
+                                                    index,
+                                                    duration: const Duration(
+                                                        milliseconds: 300),
+                                                    curve: Curves.easeInOut,
+                                                  );
+                                                },
+                                              ),
+                                              items: (houseData['imageUrls']
+                                                      as List<dynamic>)
+                                                  .map((imageUrls) {
+                                                return Builder(
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal:
+                                                            getProportionateScreenWidth(
+                                                                5),
+                                                      ),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Colors.grey,
+                                                      ),
+                                                      child: Image.network(
+                                                        imageUrls,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(
+                                                getProportionateScreenHeight(
+                                                    10)),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Title: ${houseData['title']}',
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Neighborhood: ${houseData['contactArea']}',
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Price: \$${houseData['price']}',
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      _animationController?.forward();
+                                      showDetailsBottomSheet(
+                                          context, houseData);
+                                    },
                                   ),
-                                ),
-                                subtitle: Text('Price: \$${houseData['price']}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                                onTap: () {
-                                  _animationController?.forward();
-                                  showDetailsBottomSheet(context, houseData);
-                                },
-                              ),
-                            ),
-                          );
-                        }
-                      }
-                      return ListView(
-                        children: houseWidgets,
-                      );
-                    },
+                                );
+                              }
+                            }
+                            return ListView(
+                              children: houseWidgets,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20),
-                  vertical: getProportionateScreenHeight(10)),
+                horizontal: getProportionateScreenWidth(20),
+                vertical: getProportionateScreenHeight(10),
+              ),
               child: FloatingActionButton.extended(
                 backgroundColor: const Color(0xFF297C74),
                 onPressed: () {
@@ -241,5 +342,30 @@ class _HousesScreenState extends State<HousesScreen>
         );
       },
     );
+  }
+
+  Stream<QuerySnapshot> filterHouses(String searchTerm) {
+    print("Filtering houses with contactArea: $searchTerm");
+
+    Stream<QuerySnapshot> filteredStream;
+
+    if (searchTerm.isNotEmpty) {
+      String searchTermLower = searchTerm.toLowerCase();
+      String searchTermUpper =
+          searchTermLower.substring(0, searchTermLower.length - 1) +
+              String.fromCharCode(
+                  searchTermLower.codeUnitAt(searchTermLower.length - 1) + 1);
+
+      filteredStream = FirebaseFirestore.instance
+          .collection('houses')
+          .where('contactArea', isGreaterThanOrEqualTo: searchTermLower)
+          .where('contactArea', isLessThan: searchTermUpper)
+          .snapshots();
+    } else {
+      filteredStream =
+          FirebaseFirestore.instance.collection('houses').snapshots();
+    }
+
+    return filteredStream;
   }
 }

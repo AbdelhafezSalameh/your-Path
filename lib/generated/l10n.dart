@@ -630,10 +630,10 @@ class S {
     );
   }
 
-  /// `Information`
+  /// `Privacy Policy`
   String get profile_button_information {
     return Intl.message(
-      'Information',
+      'Privacy Policy',
       name: 'profile_button_information',
       desc: '',
       args: [],

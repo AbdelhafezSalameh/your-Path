@@ -67,6 +67,14 @@ class _UploadPaidSummaryScreenState extends State<UploadPaidSummaryScreen> {
       setState(() {
         _isLoading = true;
       });
+
+      if (!_validateForm()) {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
       if (_selectedFile.path.isNotEmpty) {
         String userId = "exampleUserId";
         String title = _titleController.text.trim();
@@ -135,6 +143,24 @@ class _UploadPaidSummaryScreenState extends State<UploadPaidSummaryScreen> {
         _isLoading = false;
       });
     }
+  }
+
+  bool _validateForm() {
+    if (_titleController.text.trim().isEmpty ||
+        _descriptionController.text.trim().isEmpty ||
+        _phoneNumberController.text.trim().isEmpty ||
+        _priceController.text.trim().isEmpty ||
+        _selectedFile.path.isEmpty) {
+      // Display a message indicating that all fields are required.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill out all fields and select a file.'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return false;
+    }
+    return true;
   }
 
   @override

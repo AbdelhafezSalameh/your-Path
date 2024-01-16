@@ -113,6 +113,9 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(20),
+                  ),
                 ],
               ),
             ],

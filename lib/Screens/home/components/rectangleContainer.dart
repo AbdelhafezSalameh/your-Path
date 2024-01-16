@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_uni_services2/Screens/exchange%20books/Book%20Exchange.dart';
 import 'package:student_uni_services2/Screens/houses%20Screen/houses_Screen.dart';
 import 'package:student_uni_services2/Screens/Abstracts/Abstract_Screen.dart';
-import 'package:student_uni_services2/Screens/university/Ads/Ads.dart';
+import 'package:student_uni_services2/Screens/Ads/Ads.dart';
 import 'package:student_uni_services2/Screens/profile/profile_screen.dart';
 import 'package:student_uni_services2/To-Do/app/app.dart';
 

@@ -6,6 +6,9 @@ class CustomDropdownButton extends StatefulWidget {
   final String labelText;
   final IconData prefixIcon;
   final List<String> options;
+  final String? hintText;
+  final TextStyle? labelTextStyle;
+  final ValueChanged<String>? onChanged;
 
   const CustomDropdownButton({
     Key? key,
@@ -13,10 +16,12 @@ class CustomDropdownButton extends StatefulWidget {
     required this.labelText,
     required this.prefixIcon,
     required this.options,
+    this.hintText,
+    this.labelTextStyle,
+    this.onChanged,
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
 }
 
@@ -41,13 +46,17 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         setState(() {
           widget.controller.text = value!;
         });
+        widget.onChanged?.call(value!);
       },
       decoration: InputDecoration(
         labelText: widget.labelText,
+        hintText: widget.hintText,
+        labelStyle: widget.labelTextStyle,
         prefixIcon: Icon(widget.prefixIcon),
         contentPadding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenHeight(16),
-            horizontal: getProportionateScreenWidth(16)),
+          vertical: getProportionateScreenHeight(16),
+          horizontal: getProportionateScreenWidth(16),
+        ),
       ),
     );
   }

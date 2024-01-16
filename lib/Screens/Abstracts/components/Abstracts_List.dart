@@ -109,6 +109,7 @@ class _AbstractListScreenState extends State<AbstractListScreen> {
         ),
         backgroundColor: const Color(0xFF297C74),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Stack(
         children: [

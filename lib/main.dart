@@ -19,16 +19,17 @@ void main() async {
     // ignore: avoid_print
     print('get token: $value');
   });
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp(initialLanguageCode: 'er')));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.initialLanguageCode});
+  final String initialLanguageCode;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: const Locale("er"),
+      locale: Locale(initialLanguageCode),
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme(context),
       initialRoute: AuthWrapper.routeName,
       routes: routes,
+      home: AuthWrapper(selectedLanguageCode: initialLanguageCode),
     );
   }
 }

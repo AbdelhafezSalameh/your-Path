@@ -1,11 +1,9 @@
-// ignore: file_names
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:student_uni_services2/size_config.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -15,238 +13,90 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => MapSampleState();
 }
 
+class MarkerModel {
+  final String name;
+  final String type;
+  final GeoPoint location;
+
+  MarkerModel({
+    required this.name,
+    required this.type,
+    required this.location,
+  });
+
+  factory MarkerModel.fromDocument(DocumentSnapshot doc) {
+    return MarkerModel(
+      name: doc['name'],
+      type: doc['type'],
+      location: doc['location'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'type': type,
+      'location': location,
+    };
+  }
+}
+
 class MapSampleState extends State<MapScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+  MapType _currentMapType = MapType.normal;
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  Set<Marker> _markers = {};
+
   @override
   void initState() {
     super.initState();
-
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('abd4');
-
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: initializationSettingsAndroid,
-    );
-
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      String title = message.notification?.title ?? "hafez";
-
-      String body = message.notification?.body ?? "salameh";
-      showNotification(title, body);
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      String title = message.notification?.title ?? "No Title";
-      String body = message.notification?.body ?? "No Body";
-      showNotification(title, body);
-    });
-
-    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
-      // ignore: avoid_print
-      print("FCM onBackgroundMessage: $message");
-      String title = message.notification?.title ?? "No Title";
-      String body = message.notification?.body ?? "No Body";
-      showNotification(title, body);
-    });
+    _fetchMarkersFromFirestore();
   }
 
-  Future<void> yourBackgroundMessageHandler(RemoteMessage message) async {
-    String title = message.notification?.title ?? "No Title";
-    String body = message.notification?.body ?? "No Body";
-    showNotification(title, body);
-  }
-
-  Future<void> showNotification(String title, String body) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'your channel id', // Change this to your channel ID
-      'Your channel name', // Change this to your channel name
-      styleInformation: BigTextStyleInformation(''),
-      importance: Importance.max,
-      priority: Priority.high,
-      largeIcon:
-          DrawableResourceAndroidBitmap('abd4'), // Add your icon name here
-      actions: [
-        // Define the notification action
-        AndroidNotificationAction(
-          'your_button_action', // Change to a unique action key
-          'Your Button Label', // Label for the button
+  void _addMarker() {
+    setState(() {
+      _markers.add(
+        const Marker(
+          markerId: MarkerId('new_marker'),
+          position: LatLng(32.012744, 35.934970),
+          infoWindow: InfoWindow(title: 'New Marker'),
         ),
-      ],
-    );
-
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-    );
-
-    await flutterLocalNotificationsPlugin.show(
-      0, // Notification ID
-      title, // Notification title
-      body, // Notification body
-      platformChannelSpecifics,
-      payload: 'payload', // Add a payload if needed
-    );
+      );
+    });
   }
 
-  // ignore: unused_field
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(32.012744, 35.934970),
-    zoom: 14.4746,
-  );
+  Future<void> _fetchMarkersFromFirestore() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('markers').get();
 
-  MapType _currentMapType = MapType.normal;
+      List<MarkerModel> markers =
+          snapshot.docs.map((doc) => MarkerModel.fromDocument(doc)).toList();
 
-  final List<University> universities = [
-    University(
-      name: 'WISE University',
-      lat: 32.012475,
-      lng: 35.935505,
-    ),
-    University(
-      name: 'University of Jordan',
-      lat: 32.016107,
-      lng: 35.869333,
-    ),
-  ];
-
-  final List<House> houses = [
-    House(name: 'House 1', lat: 32.015, lng: 35.932),
-    House(name: 'House 2', lat: 32.018, lng: 35.938),
-  ];
-
-  University _selectedUniversity = University(
-    name: 'University ',
-    lat: 32.012744,
-    lng: 35.934970,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        mapType: _currentMapType,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(_selectedUniversity.lat, _selectedUniversity.lng),
-          zoom: 14.4746,
-        ),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _buildMarkers(),
-      ),
-      floatingActionButton: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenHeight(30)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SizedBox(
-                          height: 200,
-                          child: Column(
-                            children: universities
-                                .map(
-                                  (university) => ListTile(
-                                    title: Text(university.name),
-                                    onTap: () {
-                                      _changeUniversity(university);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: const Icon(Icons.school),
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SizedBox(
-                          height: 200,
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: const Text('Normal'),
-                                onTap: () {
-                                  _changeMapType(MapType.normal);
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ListTile(
-                                title: const Text('Satellite'),
-                                onTap: () {
-                                  _changeMapType(MapType.satellite);
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ListTile(
-                                title: const Text('Hybrid'),
-                                onTap: () {
-                                  _changeMapType(MapType.hybrid);
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: const Icon(Icons.layers),
-                ),
-              ],
+      Set<Marker> newMarkers = markers
+          .map(
+            (marker) => Marker(
+              markerId: MarkerId(marker.name),
+              position: LatLng(
+                marker.location.latitude,
+                marker.location.longitude,
+              ),
+              infoWindow: InfoWindow(title: marker.name),
             ),
-          ),
-        ],
-      ),
-    );
+          )
+          .toSet();
+
+      setState(() {
+        _markers = newMarkers;
+      });
+    } catch (e) {
+      print('Error fetching markers: $e');
+    }
   }
 
   Set<Marker> _buildMarkers() {
-    // Add markers for universities
-    Set<Marker> markers = universities
-        .map(
-          (university) => Marker(
-            markerId: MarkerId(university.name),
-            position: LatLng(university.lat, university.lng),
-            infoWindow: InfoWindow(title: university.name),
-          ),
-        )
-        .toSet();
-
-    // Add markers for houses
-    markers.addAll(houses
-        .map(
-          (house) => Marker(
-            markerId: MarkerId(house.name),
-            position: LatLng(house.lat, house.lng),
-            infoWindow: InfoWindow(title: house.name),
-          ),
-        )
-        .toSet());
-
-    return markers;
+    return _markers;
   }
 
   void _changeMapType(MapType newMapType) {
@@ -255,46 +105,98 @@ class MapSampleState extends State<MapScreen> {
     });
   }
 
-  void _changeUniversity(University newUniversity) {
-    setState(() {
-      _selectedUniversity = newUniversity;
-    });
-    _moveToUniversity();
+  Future<void> _insertMarker() async {
+    try {
+      MarkerModel marker = MarkerModel(
+        name: 'New Marker',
+        type: 'custom', // Specify the type as needed
+        location: const GeoPoint(32.07554411824923,
+            36.05321784208915), // Specify the latitude and longitude
+      );
+
+      await FirebaseFirestore.instance
+          .collection('markers')
+          .add(marker.toMap());
+
+      print('Marker added successfully!');
+      _fetchMarkersFromFirestore(); // Refresh markers after adding a new one
+    } catch (e) {
+      print('Error adding marker: $e');
+    }
   }
 
-  Future<void> _moveToUniversity() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        target: LatLng(_selectedUniversity.lat, _selectedUniversity.lng),
-        zoom: 14.4746,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GoogleMap(
+        mapType: _currentMapType,
+        initialCameraPosition: const CameraPosition(
+          target: LatLng(31.936253047971206, 35.91942764432493),
+          zoom: 14.4746,
+        ),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        markers: _buildMarkers(),
       ),
-    ));
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: getProportionateScreenHeight(10),
+            horizontal: getProportionateScreenWidth(30)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // FloatingActionButton(
+            //   onPressed: () {
+            //     _addMarker();
+            //     _insertMarker();
+            //   },
+            //   child: const Icon(Icons.add),
+            // ),
+            const SizedBox(height: 16.0),
+            FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 200,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: const Text('Normal'),
+                            onTap: () {
+                              _changeMapType(MapType.normal);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            title: const Text('Satellite'),
+                            onTap: () {
+                              _changeMapType(MapType.satellite);
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            title: const Text('Hybrid'),
+                            onTap: () {
+                              _changeMapType(MapType.hybrid);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Icon(Icons.layers),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-}
-
-class University {
-  final String name;
-  final double lat;
-  final double lng;
-
-  University({
-    required this.name,
-    required this.lat,
-    required this.lng,
-  });
-}
-
-class House {
-  final String name;
-  final double lat;
-  final double lng;
-
-  House({
-    required this.name,
-    required this.lat,
-    required this.lng,
-  });
 }
 
 void main() {

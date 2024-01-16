@@ -6,9 +6,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:student_uni_services2/Firebase/FireBase_Storge.dart';
+import 'package:student_uni_services2/Screens/profile/components/settings.dart';
 import 'package:student_uni_services2/Screens/sign_in/sign_in_screen.dart';
 import 'package:student_uni_services2/generated/l10n.dart';
 import 'package:student_uni_services2/size_config.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   static String routeName = "/profile";
@@ -20,15 +22,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  File? _image;
+  bool isLoading = false;
   late String fullName = '';
   late String major = '';
-  late String? profileImageUrl;
+  String? profileImageUrl;
   final FirebaseStorageService _storageService = FirebaseStorageService();
 
   @override
   void initState() {
     super.initState();
+    profileImageUrl = null;
     fetchUserDataFromFirestore();
   }
 
@@ -46,9 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             major = snapshot.get('major') ?? '';
             profileImageUrl = snapshot.get('profileImage') ?? '';
 
-            if (profileImageUrl != null) {
-              _image = File(profileImageUrl!);
-            }
+            if (profileImageUrl != null) {}
           });
         }
       } catch (e) {
@@ -64,19 +65,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        isLoading = true;
       });
 
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null && _image != null) {
-        final imageUrl =
-            await _storageService.uploadProfileImage(_image!, user.uid);
+      try {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          final imageUrl = await _storageService.uploadProfileImage(
+              File(pickedFile.path), user.uid);
 
-        if (imageUrl != null) {
-          setState(() {
-            profileImageUrl = imageUrl;
-          });
+          if (imageUrl != null) {
+            setState(() {
+              profileImageUrl = imageUrl;
+            });
+          }
         }
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
@@ -102,9 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'profileImage': imageUrl,
         });
 
-        setState(() {
-          _image = imageFile;
-        });
+        setState(() {});
       } catch (e) {
         print('Error uploading image: $e');
       }
@@ -123,6 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: Colors.white,
           ),
         ),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color(0xFF297C74),
         centerTitle: true,
       ),
@@ -139,7 +145,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: CircleAvatar(
                     radius: getProportionateScreenHeight(75),
                     backgroundColor: Colors.grey[300],
-                    backgroundImage: _image != null ? FileImage(_image!) : null,
+                    child: isLoading
+                        ? const CircularProgressIndicator()
+                        : profileImageUrl != null
+                            ? CircleAvatar(
+                                radius: getProportionateScreenHeight(75),
+                                backgroundImage: NetworkImage(profileImageUrl!),
+                              )
+                            : null,
+                    // backgroundImage: _image != null ? FileImage(_image!) : null,
+                    // backgroundImage: profileImageUrl != null
+                    //     ? NetworkImage(profileImageUrl!)
+                    //     : null,
                   ),
                 ),
               ],
@@ -166,13 +183,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 20),
             ProfileMenu(
               text: S.of(context).profile_button_information,
-              icon: "assets/icons/User Icon.svg",
+              icon: "assets/icons/Privacy-Policy.svg",
+              url:
+                  "https://www.freeprivacypolicy.com/live/0909ca0e-2d46-47f4-81a3-068c8d6e58cc",
               press: () => {},
             ),
             ProfileMenu(
               text: S.of(context).profile_button_settings,
               icon: "assets/icons/Settings.svg",
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, SettingsScreen.routeName);
+              },
             ),
             ProfileMenu(
               text: S.of(context).profile_button_logout,
@@ -196,7 +217,9 @@ class ProfileMenu extends StatelessWidget {
     required this.icon,
     this.press,
     this.onTap,
+    this.url,
   }) : super(key: key);
+  final String? url;
 
   final String text, icon;
   final VoidCallback? press;
@@ -209,13 +232,19 @@ class ProfileMenu extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextButton(
+        onPressed: () {
+          if (url != null) {
+            launch(url!);
+          } else if (press != null) {
+            press!();
+          }
+        },
         style: TextButton.styleFrom(
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           padding: const EdgeInsets.all(20),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         ),
-        onPressed: press,
         child: Row(
           children: [
             SvgPicture.asset(

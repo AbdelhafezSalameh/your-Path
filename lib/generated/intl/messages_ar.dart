@@ -81,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile_button_editProfile":
             MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
         "profile_button_information":
-            MessageLookupByLibrary.simpleMessage("المعلومات"),
+            MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
         "profile_button_logout":
             MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "profile_button_settings":

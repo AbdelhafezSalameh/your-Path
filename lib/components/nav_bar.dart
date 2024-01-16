@@ -6,35 +6,31 @@ import 'package:student_uni_services2/Screens/home/home_screen.dart';
 import 'package:student_uni_services2/Screens/profile/profile_screen.dart';
 import 'package:student_uni_services2/To-Do/app/app.dart';
 import 'package:student_uni_services2/generated/l10n.dart';
+import 'package:student_uni_services2/size_config.dart';
 
 void main() => runApp(MaterialApp(
-    builder: (context, child) {
-      return Directionality(textDirection: TextDirection.ltr, child: child!);
-    },
-    title: 'GNav',
-    theme: ThemeData(
-      primaryColor: Colors.grey[800],
-    ),
-    home: const Example()));
+      builder: (context, child) {
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child: child!,
+        );
+      },
+      title: 'GNav',
+      theme: ThemeData(
+        primaryColor: Colors.grey[800],
+      ),
+      home: const Example(),
+    ));
 
 class Example extends StatefulWidget {
-  const Example({super.key});
+  const Example({Key? key}) : super(key: key);
 
   @override
   ExampleState createState() => ExampleState();
 }
 
-int selectedIndex = 0;
-
 class ExampleState extends State<Example> {
-  static TextStyle optionStyle =
-      const TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
-  static final List<Widget> _widgetOptions = <Widget>[
-    const HomeScreen(),
-    const Tab_Bar(),
-    const FlutterRiverpodTodoApp(),
-    const ProfileScreen(),
-  ];
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +51,18 @@ class ExampleState extends State<Example> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(15),
+                vertical: getProportionateScreenHeight(8)),
             child: GNav(
-              // rippleColor: Colors.grey[300]!,
-              // hoverColor: Colors.grey[100]!,
               rippleColor: const Color(0xFF30D7BB),
               hoverColor: const Color(0xFF30D7BB),
               gap: 8,
               activeColor: Colors.black,
               iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(20),
+                  vertical: getProportionateScreenHeight(12)),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: const Color(0xFF30D7BB),
               color: Colors.black,
@@ -98,4 +96,11 @@ class ExampleState extends State<Example> {
       ),
     );
   }
+
+  final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
+    const Tab_Bar(),
+    const FlutterRiverpodTodoApp(),
+    const ProfileScreen(),
+  ];
 }

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:student_uni_services2/Firebase/FireBase_Storge.dart';
 import 'package:student_uni_services2/components/default_button.dart';
 import 'package:student_uni_services2/size_config.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +23,8 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
   final TextEditingController imageUrlController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  List<String> adImages = [];
+
   void _addEvent() {
     if (titleController.text.isNotEmpty &&
         descriptionController.text.isNotEmpty &&
@@ -34,6 +40,9 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
       titleController.clear();
       descriptionController.clear();
       imageUrlController.clear();
+      _showSuccessMessage('Event added successfully!');
+    } else {
+      _showErrorMessage('Please fill in all the fields.');
     }
   }
 
@@ -52,21 +61,49 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
       titleController.clear();
       descriptionController.clear();
       imageUrlController.clear();
+      _showSuccessMessage('News added successfully!');
+    } else {
+      _showErrorMessage('Please fill in all the fields.');
     }
   }
 
   void _addAds() {
     if (titleController.text.isNotEmpty &&
-        descriptionController.text.isNotEmpty) {
+        descriptionController.text.isNotEmpty &&
+        adImages.isNotEmpty) {
       FirebaseFirestore.instance.collection('Ads').add(
         {
           'title': titleController.text,
           'description': descriptionController.text,
+          'images': adImages,
         },
       );
       titleController.clear();
       descriptionController.clear();
+      adImages.clear();
+      _showSuccessMessage('Ads added successfully!');
+    } else {
+      _showErrorMessage('Please fill in all the fields.');
     }
+  }
+
+  void _showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   void _addCalander() {
@@ -83,6 +120,9 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
       titleController.clear();
       startDateController.clear();
       endDateController.clear();
+      _showSuccessMessage('Calendar event added successfully!');
+    } else {
+      _showErrorMessage('Please fill in all the fields.');
     }
   }
 
@@ -436,6 +476,8 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
 
   // ignore: non_constant_identifier_names
   SizedBox Ads(BuildContext context) {
+    final FirebaseStorageService _storageService = FirebaseStorageService();
+
     return SizedBox(
       width: getProportionateScreenWidth(340),
       height: getProportionateScreenHeight(50),
@@ -471,6 +513,55 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
                           controller: descriptionController,
                           decoration:
                               const InputDecoration(labelText: 'Description'),
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(16),
+                        ),
+                        DefaultButton(
+                          press: () async {
+                            final picker = ImagePicker();
+                            final pickedFile = await picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+
+                            if (pickedFile != null) {
+                              String? imageUrl =
+                                  await _storageService.uploadAdsImage(
+                                      File(pickedFile.path), "exampleUserId");
+
+                              if (imageUrl != null) {
+                                setState(() {
+                                  adImages.add(imageUrl);
+                                });
+                              }
+                            }
+                          },
+                          text: 'Choose Images',
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(16),
+                        ),
+                        SizedBox(
+                          height: 100,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: adImages.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage:
+                                      NetworkImage(adImages[index]),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         SizedBox(
                           height: getProportionateScreenHeight(16),
