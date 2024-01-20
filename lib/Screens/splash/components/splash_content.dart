@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:student_uni_services2/generated/l10n.dart';
 
 import '../../../constants.dart';
@@ -30,7 +31,7 @@ class SplashContent extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const Spacer(flex: 2),
-        Image.asset(
+        Lottie.asset(
           image!,
           height: getProportionateScreenHeight(265),
           width: getProportionateScreenWidth(235),

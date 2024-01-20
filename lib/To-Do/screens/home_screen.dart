@@ -7,6 +7,7 @@ import 'package:student_uni_services2/To-Do/utils/utils.dart';
 import 'package:student_uni_services2/To-Do/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:student_uni_services2/size_config.dart';
 
 class HomeScreen extends ConsumerWidget {
   static HomeScreen builder(
@@ -53,7 +54,9 @@ class HomeScreen extends ConsumerWidget {
             child: SafeArea(
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(
+                    vertical: getProportionateScreenHeight(30),
+                    horizontal: getProportionateScreenWidth(20)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

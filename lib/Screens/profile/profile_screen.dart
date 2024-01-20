@@ -32,7 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     profileImageUrl = null;
-    fetchUserDataFromFirestore();
+    fetchUserDataFromFirestore().then((_) {
+      setState(() {});
+    });
   }
 
   Future<void> fetchUserDataFromFirestore() async {
@@ -138,29 +140,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: getProportionateScreenHeight(50),
             ),
-            Stack(
-              children: [
-                GestureDetector(
-                  onTap: _getImage,
-                  child: CircleAvatar(
-                    radius: getProportionateScreenHeight(75),
-                    backgroundColor: Colors.grey[300],
-                    child: isLoading
-                        ? const CircularProgressIndicator()
-                        : profileImageUrl != null
-                            ? CircleAvatar(
-                                radius: getProportionateScreenHeight(75),
-                                backgroundImage: NetworkImage(profileImageUrl!),
-                              )
-                            : null,
-                    // backgroundImage: _image != null ? FileImage(_image!) : null,
-                    // backgroundImage: profileImageUrl != null
-                    //     ? NetworkImage(profileImageUrl!)
-                    //     : null,
-                  ),
+            Stack(children: [
+              GestureDetector(
+                onTap: _getImage,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: getProportionateScreenHeight(75),
+                      backgroundColor: Colors.grey[300],
+                      child: isLoading
+                          ? const CircularProgressIndicator()
+                          : profileImageUrl != null
+                              ? CircleAvatar(
+                                  radius: getProportionateScreenHeight(75),
+                                  backgroundImage:
+                                      NetworkImage(profileImageUrl!),
+                                )
+                              : null,
+                    ),
+                    if (profileImageUrl == null)
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          padding:
+                              EdgeInsets.all(getProportionateScreenHeight(6)),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ]),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Center(

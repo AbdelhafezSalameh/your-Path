@@ -8,6 +8,7 @@ import 'package:student_uni_services2/To-Do/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:student_uni_services2/size_config.dart';
 
 class CreateTaskScreen extends ConsumerStatefulWidget {
   static CreateTaskScreen builder(
@@ -63,7 +64,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+          padding: EdgeInsets.symmetric(
+              vertical: getProportionateScreenHeight(20), horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -72,11 +74,11 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                 title: 'Task Title',
                 controller: _titleController,
               ),
-              const Gap(30),
+              Gap(getProportionateScreenHeight(20)),
               const CategoriesSelection(),
-              const Gap(30),
+              Gap(getProportionateScreenHeight(20)),
               const SelectDateTime(),
-              const Gap(30),
+              Gap(getProportionateScreenHeight(30)),
               CommonTextField(
                 hintText: 'Notes',
                 title: 'Notes',

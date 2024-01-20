@@ -84,14 +84,14 @@ class _HomeHeaderState extends State<HomeHeader> {
               TextSpan(
                 text: " $fullName \n",
                 style: TextStyle(
-                  fontSize: getProportionateScreenWidth(20),
+                  fontSize: getProportionateScreenWidth(22),
                   fontWeight: FontWeight.bold,
                 ),
               ),
               TextSpan(
                 text: S.of(context).home_title,
                 style: TextStyle(
-                  fontSize: getProportionateScreenWidth(15),
+                  fontSize: getProportionateScreenWidth(18),
                   fontWeight: FontWeight.bold,
                 ),
               ),

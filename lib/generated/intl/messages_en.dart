@@ -107,8 +107,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Register Account"),
         "splash_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "splash_text": MessageLookupByLibrary.simpleMessage(
-            "Every moment you invest in studying brings you one step closer to realizing your academic dreams"),
-        "splash_title": MessageLookupByLibrary.simpleMessage("Your Path"),
+            "sophisticated space for vibrant campus living and academic excellence."),
+        "splash_title": MessageLookupByLibrary.simpleMessage("CAMPUS"),
         "university_abstracts":
             MessageLookupByLibrary.simpleMessage("University"),
         "university_ads_title": MessageLookupByLibrary.simpleMessage("Ads"),

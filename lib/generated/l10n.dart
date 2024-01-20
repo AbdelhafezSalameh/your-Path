@@ -50,20 +50,20 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Every moment you invest in studying brings you one step closer to realizing your academic dreams`
+  /// `sophisticated space for vibrant campus living and academic excellence.`
   String get splash_text {
     return Intl.message(
-      'Every moment you invest in studying brings you one step closer to realizing your academic dreams',
+      'sophisticated space for vibrant campus living and academic excellence.',
       name: 'splash_text',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your Path`
+  /// `CAMPUS`
   String get splash_title {
     return Intl.message(
-      'Your Path',
+      'CAMPUS',
       name: 'splash_title',
       desc: '',
       args: [],

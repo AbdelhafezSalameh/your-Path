@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:student_uni_services2/Firebase/FireBase_Storge.dart';
 import 'package:student_uni_services2/components/default_button.dart';
 import 'package:student_uni_services2/size_config.dart';
@@ -24,6 +25,7 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
   List<String> adImages = [];
+  bool isUploading = false;
 
   void _addEvent() {
     if (titleController.text.isNotEmpty &&
@@ -525,9 +527,16 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
                             );
 
                             if (pickedFile != null) {
+                              setState(() {
+                                isUploading = true;
+                              });
                               String? imageUrl =
                                   await _storageService.uploadAdsImage(
                                       File(pickedFile.path), "exampleUserId");
+
+                              setState(() {
+                                isUploading = false;
+                              });
 
                               if (imageUrl != null) {
                                 setState(() {
@@ -548,20 +557,24 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
                         ),
                         SizedBox(
                           height: 100,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: adImages.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage:
-                                      NetworkImage(adImages[index]),
+                          child: isUploading
+                              ? Center(
+                                  child: Lottie.asset(
+                                      'assets/videos/loading.json'))
+                              : ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: adImages.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage:
+                                            NetworkImage(adImages[index]),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
                         ),
                         SizedBox(
                           height: getProportionateScreenHeight(16),

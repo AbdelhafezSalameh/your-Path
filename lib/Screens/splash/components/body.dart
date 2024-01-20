@@ -18,9 +18,13 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
-    {"image": "assets/images/sp1.png"},
-    {"image": "assets/images/sp2.png"},
-    {"image": "assets/images/sp3.png"},
+    {"Lottie": 'assets/videos/ani2 (1).json'},
+    {"Lottie": 'assets/videos/ani2 (3).json'},
+    {"Lottie": 'assets/videos/ani 1.json'},
+
+    // {"image": "assets/images/sp1.png"},
+    // {"image": "assets/images/sp2.png"},
+    // {"image": "assets/images/sp3.png"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -38,9 +42,13 @@ class _BodyState extends State<Body> {
                   });
                 },
                 itemCount: splashData.length,
-                itemBuilder: (context, index) => SplashContent(
-                  image: splashData[index]["image"],
-                  text: S.of(context).splash_text,
+                itemBuilder: (context, index) => SizedBox(
+                  height: getProportionateScreenHeight(400),
+                  width: getProportionateScreenWidth(350),
+                  child: SplashContent(
+                    image: splashData[index]["Lottie"],
+                    text: S.of(context).splash_text,
+                  ),
                 ),
               ),
             ),

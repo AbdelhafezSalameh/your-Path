@@ -57,7 +57,8 @@ class _AdsScreenState extends State<AdsScreen>
                 ),
                 Text(
                   'Description: $description',
-                  maxLines: 5,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 16),
                 ),
                 SizedBox(
@@ -222,9 +223,9 @@ class _AdsScreenState extends State<AdsScreen>
                                     height: getProportionateScreenHeight(4)),
                                 Text(
                                   description,
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 14),
+                                  style: const TextStyle(fontSize: 11),
                                 ),
                               ],
                             ),

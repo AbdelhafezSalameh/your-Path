@@ -143,24 +143,27 @@ class _BookListScreenState extends State<BookListScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Text(
+                                        'Book Name: $title',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(10),
+                                      ),
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            'Book Name: $title',
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: getProportionateScreenHeight(
-                                                90),
-                                          ),
                                           Text(
                                             category,
                                             style:
                                                 const TextStyle(fontSize: 16),
                                           ),
+                                          // Add any other fixed content here if needed
                                         ],
                                       ),
                                       SizedBox(
