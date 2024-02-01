@@ -90,8 +90,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                 onPressed: _createTask,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: const Color(0xFF30D7BB),
-                  backgroundColor:
-                      const Color(0xFF297C74), // Text Color (Foreground color)
+                  backgroundColor: const Color(0xFF297C74),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),

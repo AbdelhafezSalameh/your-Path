@@ -9,28 +9,6 @@ class AuthService {
     return user != null;
   }
 
-  // انشاء حساب
-  // ignore: body_might_complete_normally_nullable
-  Future<String?> signUp(String email, String password) async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        // ignore: avoid_print
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        // ignore: avoid_print
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
-    }
-  }
-
   // تسجيل دخول
   Future<String?> signIn(String email, String password) async {
     try {

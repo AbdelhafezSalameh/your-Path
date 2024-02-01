@@ -73,6 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   await user?.reload();
                   if (mounted) {
                     if (user?.emailVerified == true) {
+                      // ignore: avoid_print
                       print(
                           "heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeey");
                       Navigator.of(context).pop();
@@ -279,9 +280,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        // Call signUp function here passing email and password
                         signUp(email!, password!);
-                        // Navigate to the next screen if needed
                         Navigator.push(
                           context,
                           MaterialPageRoute(

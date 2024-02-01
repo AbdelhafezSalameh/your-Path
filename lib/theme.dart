@@ -68,7 +68,7 @@ class BookUploadTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null
             ? Icon(
                 prefixIcon,
-                color: const Color(0xFF297C74), // Change the color here
+                color: const Color(0xFF297C74),
               )
             : null,
         contentPadding:

@@ -73,6 +73,7 @@ class _AdsScreenState extends State<AdsScreen>
                       enlargeCenterPage: true,
                       autoPlay: true,
                     ),
+                    // ignore: unnecessary_cast
                     items: (images as List<dynamic>).map((imageUrls) {
                       return Builder(
                         builder: (BuildContext context) {

@@ -163,7 +163,6 @@ class _BookListScreenState extends State<BookListScreen> {
                                             style:
                                                 const TextStyle(fontSize: 16),
                                           ),
-                                          // Add any other fixed content here if needed
                                         ],
                                       ),
                                       SizedBox(

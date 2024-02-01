@@ -69,7 +69,8 @@ class _HomeHeaderState extends State<HomeHeader> {
   SafeArea header() {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25), // title
+        padding:
+            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(25)),
         child: Text.rich(
           TextSpan(
             style: const TextStyle(color: Colors.white),

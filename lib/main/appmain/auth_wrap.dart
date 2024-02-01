@@ -74,33 +74,3 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-  // Future<void> logIn(String email, String password) async {
-  //   String? result = await _auth.signIn(email, password);
-
-  //   if (result == null) {
-  //     User? user = FirebaseAuth.instance.currentUser;
-
-  //     if (user != null) {
-  //       String? userRole = await getUserRole(user.uid);
-
-  //       if (userRole == 'Student') {
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(builder: (context) => Example()),
-  //         );
-  //       } else if (userRole == 'advertiser') {
-  //         Navigator.pushReplacementNamed(
-  //             context, AdvertiserHomeScreen.routeName);
-  //       } else {
-  //         print('Unknown user role: $userRole');
-  //       }
-  //     }
-  //   } 
-  // }
