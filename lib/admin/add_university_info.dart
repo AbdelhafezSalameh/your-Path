@@ -93,7 +93,7 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -103,7 +103,7 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
       SnackBar(
         content: Text(message),
         backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -478,6 +478,7 @@ class _AddUniversityInformationState extends State<AddUniversityInformation> {
 
   // ignore: non_constant_identifier_names
   SizedBox Ads(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
     final FirebaseStorageService _storageService = FirebaseStorageService();
 
     return SizedBox(
